@@ -7,6 +7,8 @@
 #include "squish_run.h"
 #include "squish_tokenize.h"
 
+#include "w_run_command.h"
+
 
 /**
  * Print a prompt if the input is coming from a TTY
@@ -33,6 +35,8 @@ int execFullCommandLine(
 	}
 
 	/** Now actually do something with this command, or command set */
+	runCmd(ofp, tokens[0]);
+	puts("does this run?");
 
 	return 1;
 }

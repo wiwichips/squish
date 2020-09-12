@@ -6,7 +6,8 @@ EXE	= squish
 OBJS = \
 	squish_main.o \
 	squish_run.o \
-	squish_tokenize.o
+	squish_tokenize.o \
+	w_run_command.o
 
 CFLAGS = -g
 
