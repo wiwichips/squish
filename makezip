@@ -1,0 +1,7 @@
+#!/bin/sh
+
+(
+	cd ..
+	zip -R CIS3050-A1-code.zip CIS3050-A1-code/*akefile CIS3050-A1-code/*.[ch] makefile
+)
+

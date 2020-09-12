@@ -1,0 +1,13 @@
+#!/bin/sh
+
+#
+# Simple test harness for "squish" shell
+#
+
+for file in test*.squish
+do
+	echo "Testing ${file}"
+	./squish -v "${file}"
+	echo " ** exit status $?"
+done
+
