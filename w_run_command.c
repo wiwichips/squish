@@ -11,7 +11,8 @@ runCmd(FILE* ofp, char* name) {
   int pipefds[2];
   int pid;
   int i;
-  char nl = '\n';
+  pid_t child = -1;
+  int statLoc = 0;
 
   // create the pipe
   if (pipe(pipefds) < 0) {
@@ -35,21 +36,25 @@ runCmd(FILE* ofp, char* name) {
     // close the read end of the pipe
     close(pipefds[0]);
 
+    // replce the process image with the command specified
     execlp(name, name, (char *) NULL);
+
+    // on failure, write the null character to the pipe and exit
+    char test = '\0';
+    write(1, &test, 1);
 
     perror("exec 1");
     exit(1);
   }
 
   char curr = 'a';
-  while (curr != nl) {
+  while (curr != '\n' && curr != '\0') {
     read(pipefds[0], &curr, 1);
     printf("%c", curr);
   }
 
   close(pipefds[1]);
 
-  wait(NULL);
-
-  return 0;
+  waitpid(child, &statLoc, 0);
+  return statLoc;
 }
