@@ -9,6 +9,7 @@
 
 #include "w_run_command.h"
 
+int numPrompts = 0;
 
 /**
  * Print a prompt if the input is coming from a TTY
@@ -35,10 +36,8 @@ int execFullCommandLine(
 	}
 
 	/** Now actually do something with this command, or command set */
-	runCmd(ofp, tokens[0]);
-	puts("does this run?");
-
-	return 1;
+	int e = runCmd(ofp, tokens[0]);
+	return e;
 }
 
 /**

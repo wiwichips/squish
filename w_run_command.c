@@ -41,13 +41,13 @@ runCmd(FILE* ofp, char* name) {
     exit(1);
   }
 
-  close(0);
-  dup(pipefds[0]);
-  close(pipefds[0]);
+  // close(0);
+  // dup(pipefds[0]);
+  // close(pipefds[0]);
 
   char curr = 'a';
   while (curr != nl) {
-    read(0, &curr, 1);
+    read(pipefds[0], &curr, 1);
     printf("%c", curr);
   }
 
