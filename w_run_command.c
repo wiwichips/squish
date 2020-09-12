@@ -43,7 +43,7 @@ runCmd(FILE* ofp, char* name) {
     char test = '\0';
     write(1, &test, 1);
 
-    perror("exec 1");
+    // perror("exec 1");
     exit(1);
   }
 
@@ -55,6 +55,19 @@ runCmd(FILE* ofp, char* name) {
 
   close(pipefds[1]);
 
-  waitpid(child, &statLoc, 0);
+  int test = waitpid(child, &statLoc, 0);
+
+  // print child exit status
+  fprintf(ofp, "Child(%d) ", pid);
+
+  if (statLoc == 0) {
+    fprintf(ofp, "exited -- success (%d)\n", statLoc);
+  } else {
+    fprintf(ofp, "exited -- failure (%d)\n", statLoc);
+  }
+  
+  // fprintf(ofp, "statloc: %d\n", statLoc);
+  // fprintf(ofp, "waitpid call: %d\n\n\n", test);
+
   return statLoc;
 }
