@@ -35,15 +35,11 @@ runCmd(FILE* ofp, char* name) {
     // close the read end of the pipe
     close(pipefds[0]);
 
-    execl("/bin/date", name, NULL);
+    execlp(name, name, (char *) NULL);
 
     perror("exec 1");
     exit(1);
   }
-
-  // close(0);
-  // dup(pipefds[0]);
-  // close(pipefds[0]);
 
   char curr = 'a';
   while (curr != nl) {
