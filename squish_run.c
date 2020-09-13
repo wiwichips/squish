@@ -43,7 +43,7 @@ int execFullCommandLine(
 	if (!strcmp(tokens[0], "cd")) {
 		ret = cd(tokens[1]);
 	} else if (!strcmp(tokens[0], "exit")) {
-		exitProgram(tokens);
+		exitProgram(tokens, nTokens);
 	} else {
 		ret = runCmd(ofp, tokens);
 	}
