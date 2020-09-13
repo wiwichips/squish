@@ -6,13 +6,14 @@ runCmd(FILE* ofp, char* name) {
    * FOLLOWING CODE SEGMENT WAS MODIFIED FROM THE ORIGINAL
    * pipeToMore.c
    * 
-   * TODO: cite this code
+   * TODO: cite this code properly
    */
   int pipefds[2];
   int pid;
   int i;
   pid_t child = -1;
   int statLoc = 0;
+  int exitingPID = -123;
 
   // create the pipe
   if (pipe(pipefds) < 0) {
@@ -55,19 +56,24 @@ runCmd(FILE* ofp, char* name) {
 
   close(pipefds[1]);
 
-  int test = waitpid(child, &statLoc, 0);
+  exitingPID = wait(&statLoc);
 
-  // print child exit status
-  fprintf(ofp, "Child(%d) ", pid);
-
-  if (statLoc == 0) {
-    fprintf(ofp, "exited -- success (%d)\n", statLoc);
+  /**
+   * FOLLOWING CODE SEGMENT IS COPIED FORM THE ORIGINAL vssh.c
+   * 
+   * TODO: cite this code properly
+   */
+  if(WIFEXITED(statLoc)) {
+    fprintf(ofp, "Child (%d) exitted -- ", exitingPID);
+    if (statLoc == 0) {
+      fprintf(ofp, "success");
+    } else {
+      fprintf(ofp, "failure");
+    }
+    fprintf(ofp, "(%d)\n", statLoc);
   } else {
-    fprintf(ofp, "exited -- failure (%d)\n", statLoc);
+    fprintf(ofp, "Child (%d) did not exit (crashed?)\n", exitingPID);
   }
   
-  // fprintf(ofp, "statloc: %d\n", statLoc);
-  // fprintf(ofp, "waitpid call: %d\n\n\n", test);
-
   return statLoc;
 }
