@@ -8,7 +8,8 @@
 #include "squish_tokenize.h"
 
 #include "w_run_command.h"
-#include "print_command.h"
+#include "w_change_dir.h"
+#include "w_exit.h"
 
 int numPrompts = 0;
 
@@ -31,14 +32,22 @@ int execFullCommandLine(
 		int nTokens,
 		int verbosity)
 {
+	int ret = 0;
+
 	if (verbosity > 0) {
 		fprintf(stderr, " + ");
 		fprintfTokens(stderr, tokens, 1);
 	}
 
 	/** Now actually do something with this command, or command set */
-	int e = runCmd(ofp, tokens);
-	return e;
+	if (!strcmp(tokens[0], "cd")) {
+		ret = cd(tokens[1]);
+	} else if (!strcmp(tokens[0], "exit")) {
+		exitProgram(tokens);
+	} else {
+		ret = runCmd(ofp, tokens);
+	}
+	return ret;
 }
 
 /**

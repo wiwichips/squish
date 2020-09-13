@@ -7,7 +7,9 @@ OBJS = \
 	squish_main.o \
 	squish_run.o \
 	squish_tokenize.o \
-	w_run_command.o
+	w_run_command.o \
+	w_change_dir.o \
+	w_exit.o
 
 CFLAGS = -g
 
