@@ -6,4 +6,4 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-int runCmd(FILE* ofp, char* name);
+int runCmd(FILE* ofp, char** tokens);

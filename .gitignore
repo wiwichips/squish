@@ -2,6 +2,7 @@
 l
 *.zip
 *.pdf
+squish
 
 # Prerequisites
 *.d

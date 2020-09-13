@@ -36,7 +36,7 @@ int execFullCommandLine(
 	}
 
 	/** Now actually do something with this command, or command set */
-	int e = runCmd(ofp, tokens[0]);
+	int e = runCmd(ofp, tokens);
 	return e;
 }
 

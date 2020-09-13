@@ -1,7 +1,7 @@
 #include "w_run_command.h"
 
 int
-runCmd(FILE* ofp, char* name) {
+runCmd(FILE* ofp, char** tokens) {
   /**
    * FOLLOWING CODE SEGMENT WAS MODIFIED FROM THE ORIGINAL
    * pipeToMore.c
@@ -38,7 +38,7 @@ runCmd(FILE* ofp, char* name) {
     close(pipefds[0]);
 
     // replce the process image with the command specified
-    execlp(name, name, (char *) NULL);
+    execvp(tokens[0], tokens);
 
     // on failure, write the null character to the pipe and exit
     char test = '\0';
@@ -51,7 +51,7 @@ runCmd(FILE* ofp, char* name) {
   char curr = 'a';
   while (curr != '\n' && curr != '\0') {
     read(pipefds[0], &curr, 1);
-    printf("%c", curr);
+    fprintf(ofp, "%c", curr);
   }
 
   close(pipefds[1]);
