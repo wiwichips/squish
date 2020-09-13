@@ -15,12 +15,6 @@ runCmd(FILE* ofp, char** tokens) {
   int statLoc = 0;
   int exitingPID = -123;
 
-  // create the pipe
-  if (pipe(pipefds) < 0) {
-    perror("pipe 1");
-    exit(1);
-  }
-
   // create child process
   if ((pid = fork()) < 0) {
     perror("fork 1");
@@ -29,32 +23,12 @@ runCmd(FILE* ofp, char** tokens) {
 
   // child process
   if (pid == 0) {
-    // close stdout, make fd 1 end of pipe, close old file descriptor?
-    close (1);
-    dup(pipefds[1]);
-    close(pipefds[1]);
-
-    // close the read end of the pipe
-    close(pipefds[0]);
-
     // replce the process image with the command specified
     execvp(tokens[0], tokens);
-
-    // on failure, write the null character to the pipe and exit
-    char test = '\0';
-    write(1, &test, 1);
 
     // perror("exec 1");
     exit(1);
   }
-
-  char curr = 'a';
-  while (curr != '\n' && curr != '\0') {
-    read(pipefds[0], &curr, 1);
-    fprintf(ofp, "%c", curr);
-  }
-
-  close(pipefds[1]);
 
   exitingPID = wait(&statLoc);
 

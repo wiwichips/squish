@@ -8,6 +8,7 @@
 #include "squish_tokenize.h"
 
 #include "w_run_command.h"
+#include "print_command.h"
 
 int numPrompts = 0;
 
