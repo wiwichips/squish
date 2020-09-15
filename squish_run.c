@@ -10,6 +10,7 @@
 #include "w_run_command.h"
 #include "w_change_dir.h"
 #include "w_exit.h"
+#include "w_pipe.h"
 
 int numPrompts = 0;
 
@@ -40,12 +41,34 @@ int execFullCommandLine(
 	}
 
 	/** Now actually do something with this command, or command set */
+	char*** listTokens = malloc(sizeof(char**));
+	listTokens[0] = tokens;
+	int numLists = 1;
+
+
 	if (!strcmp(tokens[0], "cd")) {
 		ret = cd(tokens[1]);
+
 	} else if (!strcmp(tokens[0], "exit")) {
 		exitProgram(tokens, nTokens);
+
 	} else {
-		ret = runCmd(ofp, tokens);
+		for (int i = 1; i < nTokens; i++) {
+			if (!strcmp(tokens[i], "|")) {
+				listTokens = realloc(listTokens, sizeof(char**) * ++numLists);
+				listTokens[numLists-1] = &tokens[i+1];
+				tokens[i] = NULL;
+			}
+		}
+		
+
+		if (numLists > 1) {
+			ret = ipc(ofp, listTokens, numLists);
+
+		} else {
+			ret = runCmd(ofp, tokens);
+
+		}
 	}
 	return ret;
 }
