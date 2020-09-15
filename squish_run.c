@@ -44,6 +44,7 @@ int execFullCommandLine(
 	char*** listTokens = malloc(sizeof(char**));
 	listTokens[0] = tokens;
 	int numLists = 1;
+	int statLoc = 0;
 
 
 	if (!strcmp(tokens[0], "cd")) {
@@ -66,7 +67,24 @@ int execFullCommandLine(
 			ret = ipc(ofp, listTokens, numLists);
 
 		} else {
-			ret = runCmd(ofp, tokens);
+			ret = runCmd(ofp, tokens, &statLoc);
+
+			/**
+			 * FOLLOWING CODE SEGMENT IS COPIED FORM THE ORIGINAL vssh.c
+			 * 
+			 * TODO: cite this code properly
+			 */
+			if(WIFEXITED(statLoc)) {
+				fprintf(ofp, "Child (%d) exitted -- ", ret);
+				if (statLoc == 0) {
+					fprintf(ofp, "success");
+				} else {
+					fprintf(ofp, "failure");
+				}
+				fprintf(ofp, "(%d)\n", statLoc);
+			} else {
+				fprintf(ofp, "Child (%d) did not exit (crashed?)\n", ret);
+			}
 
 		}
 	}

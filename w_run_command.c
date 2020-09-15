@@ -1,7 +1,7 @@
 #include "w_run_command.h"
 
 int
-runCmd(FILE* ofp, char** tokens) {
+runCmd(FILE* ofp, char** tokens, int* statLoc) {
   /**
    * FOLLOWING CODE SEGMENT WAS MODIFIED FROM THE ORIGINAL
    * pipeToMore.c
@@ -12,7 +12,6 @@ runCmd(FILE* ofp, char** tokens) {
   int pid;
   int i;
   pid_t child = -1;
-  int statLoc = 0;
   int exitingPID = -123;
 
   // create child process
@@ -30,24 +29,7 @@ runCmd(FILE* ofp, char** tokens) {
     exit(1);
   }
 
-  exitingPID = wait(&statLoc);
-
-  /**
-   * FOLLOWING CODE SEGMENT IS COPIED FORM THE ORIGINAL vssh.c
-   * 
-   * TODO: cite this code properly
-   */
-  if(WIFEXITED(statLoc)) {
-    fprintf(ofp, "Child (%d) exitted -- ", exitingPID);
-    if (statLoc == 0) {
-      fprintf(ofp, "success");
-    } else {
-      fprintf(ofp, "failure");
-    }
-    fprintf(ofp, "(%d)\n", statLoc);
-  } else {
-    fprintf(ofp, "Child (%d) did not exit (crashed?)\n", exitingPID);
-  }
-  
-  return statLoc;
+  exitingPID = wait(statLoc);
+    
+  return exitingPID;
 }
