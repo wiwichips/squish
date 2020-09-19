@@ -9,6 +9,7 @@
  * I dontknow if this is currently in place right now.
  */
 
+
 int
 ipc(FILE* ofp, char*** listTokens, int nListTokens) {
   int fd[2];
@@ -16,6 +17,11 @@ ipc(FILE* ofp, char*** listTokens, int nListTokens) {
   pid_t cpid;
   int exitStatus = 0;
   int statLoc = 0;
+
+  // if there is only one process, just run the command
+  if (nListTokens == 1) {
+    return runCmd(ofp, listTokens[0], &statLoc);
+  }
 
   // create the pipe
   pipe(fd);
@@ -27,7 +33,8 @@ ipc(FILE* ofp, char*** listTokens, int nListTokens) {
     // first child
     close(fd[0]);
     dup2(fd[1], STDOUT_FILENO);
-    exitStatus = runCmd(ofp, listTokens[0], &statLoc);
+    // exitStatus = runCmd(ofp, listTokens[nListTokens - 2], &statLoc);
+    exitStatus = ipc(ofp, listTokens, nListTokens - 1);
     exit(exitStatus);
   }
 
@@ -38,7 +45,7 @@ ipc(FILE* ofp, char*** listTokens, int nListTokens) {
     // second child
     close(fd[1]);
     dup2(fd[0], STDIN_FILENO);
-    exitStatus = runCmd(ofp, listTokens[1], &statLoc);
+    exitStatus = runCmd(ofp, listTokens[nListTokens - 1], &statLoc);
     exit(exitStatus);
   }
 
