@@ -10,6 +10,16 @@
  */
 
 
+/**
+ * Simple diagram of the process tree for squish calling pipes. 
+ * 
+ *   squish
+ *     /\
+ *    /  \
+ *   /\   \
+ *  /  \   \
+ * p1  p2  p3
+ */
 int
 ipc(FILE* ofp, char*** listTokens, int nListTokens) {
   int fd[2];
