@@ -45,6 +45,7 @@ ipc(FILE* ofp, char*** listTokens, int nListTokens) {
     dup2(fd[1], STDOUT_FILENO);
     // exitStatus = runCmd(ofp, listTokens[nListTokens - 2], &statLoc);
     exitStatus = ipc(ofp, listTokens, nListTokens - 1);
+    free(listTokens);
     exit(exitStatus);
   }
 
@@ -56,6 +57,7 @@ ipc(FILE* ofp, char*** listTokens, int nListTokens) {
     close(fd[1]);
     dup2(fd[0], STDIN_FILENO);
     exitStatus = runCmd(ofp, listTokens[nListTokens - 1], &statLoc);
+    free(listTokens);
     exit(exitStatus);
   }
 

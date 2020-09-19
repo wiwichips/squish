@@ -51,6 +51,7 @@ int execFullCommandLine(
 		ret = cd(tokens[1]);
 
 	} else if (!strcmp(tokens[0], "exit")) {
+		free(listTokens);
 		exitProgram(tokens, nTokens);
 
 	} else {
@@ -88,6 +89,8 @@ int execFullCommandLine(
 
 		}
 	}
+
+	free(listTokens);
 	return ret;
 }
 
