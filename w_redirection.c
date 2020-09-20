@@ -31,30 +31,6 @@ redirection(FILE* ofp, char* filename, char* arrow) {
 }
 
 int
-stdinToFile(char* filename)
-{
-  FILE* ifp = stdin;
-  FILE* ofp;
-  size_t len;
-  char* line;
-
-  // initialize getline variables
-  len = 0;
-  line = NULL;
-
-  // open the file to write to
-  ofp = fopen(filename, "w");
-
-  while (getline(&line, &len, ifp) != -1)
-    fprintf(ofp, "%s", line);
-  
-  fclose(ofp);
-  free(line);
-  
-  return 0;
-}
-
-int
 fileRedirect(FILE* ifp, FILE* ofp)
 {
   size_t len;
