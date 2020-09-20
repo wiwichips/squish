@@ -7,17 +7,15 @@
 #include "squish_run.h"
 #include "squish_tokenize.h"
 
-#include "w_run_command.h"
-#include "w_change_dir.h"
-#include "w_exit.h"
-#include "w_pipe.h"
+#include "w_run.h"
 
 int numPrompts = 0;
 
 /**
  * Print a prompt if the input is coming from a TTY
  */
-static void prompt(FILE *pfp, FILE *ifp)
+static void 
+prompt(FILE *pfp, FILE *ifp)
 {
 	if (isatty(fileno(ifp))) {
 		fputs(PROMPT_STRING, pfp);
@@ -27,13 +25,13 @@ static void prompt(FILE *pfp, FILE *ifp)
 /**
  * Actually do the work
  */
-int execFullCommandLine(
+int
+execFullCommandLine(
 		FILE *ofp,
 		char ** const tokens,
 		int nTokens,
 		int verbosity)
 {
-	int ret = 0;
 
 	if (verbosity > 0) {
 		fprintf(stderr, " + ");
@@ -41,57 +39,7 @@ int execFullCommandLine(
 	}
 
 	/** Now actually do something with this command, or command set */
-	char*** listTokens = malloc(sizeof(char**));
-	listTokens[0] = tokens;
-	int numLists = 1;
-	int statLoc = 0;
-
-
-	if (!strcmp(tokens[0], "cd")) {
-		ret = cd(tokens[1]);
-
-	} else if (!strcmp(tokens[0], "exit")) {
-		free(listTokens);
-		exitProgram(tokens, nTokens);
-
-	} else {
-		for (int i = 1; i < nTokens; i++) {
-			if (!strcmp(tokens[i], "|")) {
-				listTokens = realloc(listTokens, sizeof(char**) * ++numLists);
-				listTokens[numLists-1] = &tokens[i+1];
-				tokens[i] = NULL;
-			}
-		}
-		
-
-		if (numLists > 1) {
-			ret = ipc(ofp, listTokens, numLists);
-
-		} else {
-			ret = runCmd(ofp, tokens, &statLoc);
-
-			/**
-			 * FOLLOWING CODE SEGMENT IS COPIED FORM THE ORIGINAL vssh.c
-			 * 
-			 * TODO: cite this code properly
-			 */
-			if(WIFEXITED(statLoc)) {
-				fprintf(ofp, "Child (%d) exitted -- ", ret);
-				if (statLoc == 0) {
-					fprintf(ofp, "success");
-				} else {
-					fprintf(ofp, "failure");
-				}
-				fprintf(ofp, "(%d)\n", statLoc);
-			} else {
-				fprintf(ofp, "Child (%d) did not exit (crashed?)\n", ret);
-			}
-
-		}
-	}
-
-	free(listTokens);
-	return ret;
+	return run(ofp, tokens, nTokens, verbosity);
 }
 
 /**

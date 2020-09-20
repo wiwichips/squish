@@ -10,7 +10,9 @@ OBJS = \
 	w_run_command.o \
 	w_change_dir.o \
 	w_exit.o \
-	w_pipe.o
+	w_pipe.o \
+	w_redirection.o \
+	w_run.o
 
 CFLAGS = -g
 

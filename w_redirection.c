@@ -1,27 +1,15 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-int fileRedirect(FILE* ifp, FILE* ofp);
-int redirection(FILE* ofp, char* filename, char* arrow);
+#include "w_redirection.h"
 
 int
-main()
+redirection(FILE* ofp, char* filename, char* arrow)
 {
-  char* filename = "hello";
-  FILE* ofp = stdout;
-  
-  redirection(ofp, filename, ">");
-}
-
-int
-redirection(FILE* ofp, char* filename, char* arrow) {
   if (!strcmp(arrow, "<")) {
     // piping from a file
     FILE* ifp = fopen(filename, "r");
     fileRedirect(ifp, ofp);
     fclose(ifp);
-  } else {
+  } 
+  else {
     // piping to a file
     FILE* ofp = fopen(filename, "w");
     fileRedirect(stdin, ofp);
@@ -40,8 +28,7 @@ fileRedirect(FILE* ifp, FILE* ofp)
   len = 0;
   line = NULL;
 
-  if (ifp == NULL) 
-  {
+  if (ifp == NULL) {
     return -1;
   }
 
