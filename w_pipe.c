@@ -67,7 +67,5 @@ ipc(FILE* ofp, char*** listTokens, int nListTokens) {
   waitpid(-1, &status, 0);
   waitpid(-1, &status, 0);
 
-  // printf("process %d finished\n", cpid);
-
   return 0;
 }

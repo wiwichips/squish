@@ -18,6 +18,7 @@ run(FILE *ofp, char ** const tokens, int nTokens, int verbosity)
 		exitProgram(tokens, nTokens);
 
 	} else {
+    // populate the array of strings seprated by "|" characters
 		for (int i = 1; i < nTokens; i++) {
 			if (!strcmp(tokens[i], "|")) {
 				listTokens = realloc(listTokens, sizeof(char**) * ++numLists);

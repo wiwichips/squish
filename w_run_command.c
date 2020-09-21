@@ -1,4 +1,5 @@
 #include "w_run_command.h"
+#include "w_redirection.h"
 
 int
 runCmd(FILE* ofp, char** tokens, int* statLoc) {
@@ -22,6 +23,12 @@ runCmd(FILE* ofp, char** tokens, int* statLoc) {
 
   // child process
   if (pid == 0) {
+    // check if there are ">" or "<" characters, if so do redirection
+    if (redirectTree(ofp, tokens)) {
+      exit(1);
+      // return 0;
+    }
+
     // replce the process image with the command specified
     execvp(tokens[0], tokens);
 
