@@ -3,6 +3,9 @@ l
 *.zip
 *.pdf
 squish
+*zoey
+*.txt
+
 
 # Prerequisites
 *.d
