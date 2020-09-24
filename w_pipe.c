@@ -16,9 +16,9 @@
  *   squish
  *     /\
  *    /  \
- *   /\   \
- *  /  \   \
- * p1  p2  p3
+ *   /\   p3
+ *  /  \   
+ * p1  p2  
  */
 int
 ipc(FILE* ofp, char*** listTokens, int nListTokens) {
