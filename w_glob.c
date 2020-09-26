@@ -29,7 +29,7 @@ tokenGlob(char** tokens) {
     }
 
     // preserve arguments
-    if (glist.gl_pathc == 0 && tokens[i][0] == '-') {
+    if (glist.gl_pathc == 0 /* && tokens[i][0] == '-'*/) {
       exTokens = realloc(exTokens, sizeof(char*) * ++exTokLen);
       exTokens[exTokLen - 1] = calloc(strlen(tokens[i]) + 1, sizeof(char));
       strcpy(exTokens[exTokLen - 1], tokens[i]);
