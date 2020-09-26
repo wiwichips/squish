@@ -9,8 +9,8 @@ run(FILE *ofp, char ** const tokens, int nTokens, int verbosity)
 	int statLoc = 0;
   int ret;
 
-
 	if (!strcmp(tokens[0], "cd")) {
+		free(listTokens);
 		ret = cd(tokens[1]);
 
 	} else if (!strcmp(tokens[0], "exit")) {
@@ -27,11 +27,11 @@ run(FILE *ofp, char ** const tokens, int nTokens, int verbosity)
 			}
 		}
 		
-
 		if (numLists > 1) {
 			ret = ipc(ofp, listTokens, numLists);
-
+			free(listTokens);
 		} else {
+			free(listTokens);
 			ret = runCmd(ofp, tokens, &statLoc);
 
 			/**
@@ -54,6 +54,5 @@ run(FILE *ofp, char ** const tokens, int nTokens, int verbosity)
 		}
 	}
 
-	free(listTokens);
 	return ret;
 }
