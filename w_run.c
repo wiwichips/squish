@@ -9,6 +9,9 @@ run(FILE *ofp, char ** const tokens, int nTokens, int verbosity)
 	int statLoc = 0;
   int ret;
 
+	// print the tokens
+	printCmd(tokens);
+
 	if (!strcmp(tokens[0], "cd")) {
 		free(listTokens);
 		ret = cd(tokens[1]);
@@ -55,4 +58,16 @@ run(FILE *ofp, char ** const tokens, int nTokens, int verbosity)
 	}
 
 	return ret;
+}
+
+int
+printCmd(char** tokens) {
+	char** globTokens = tokenGlob(tokens);
+	for (int i = 0; globTokens[i] != NULL; i++) {
+		printf(" \"%s\"", globTokens[i]);
+		free(globTokens[i]);
+	}
+	free(globTokens);
+	puts("");
+	return 0;
 }
