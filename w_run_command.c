@@ -14,6 +14,7 @@ runCmd(FILE* ofp, char** tokens, int* statLoc) {
   int i;
   pid_t child = -1;
   int exitingPID = -123;
+  char** globTokens = NULL;
 
   // create child process
   if ((pid = fork()) < 0) {
@@ -26,11 +27,18 @@ runCmd(FILE* ofp, char** tokens, int* statLoc) {
     // check if there are ">" or "<" characters, if so do redirection
     if (redirectTree(ofp, tokens)) {
       exit(1);
-      // return 0;
     }
 
+    // glob
+    globTokens = tokenGlob(tokens);
+
     // replce the process image with the command specified
-    execvp(tokens[0], tokens);
+    execvp(tokens[0], globTokens);
+
+    for (int i = 0; globTokens[i] != NULL; i++) {
+      free(globTokens[i]);
+    }
+    free(globTokens);
 
     // perror("exec 1");
     exit(1);

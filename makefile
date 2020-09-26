@@ -12,7 +12,8 @@ OBJS = \
 	w_exit.o \
 	w_pipe.o \
 	w_redirection.o \
-	w_run.o
+	w_run.o \
+	w_glob.o
 
 CFLAGS = -g
 
