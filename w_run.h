@@ -7,4 +7,4 @@
 #include "w_glob.h"
 
 int run(FILE *ofp, char ** const tokens, int nTokens, int verbosity);
-int printCmd(char** tokens);
+int printCmd(FILE *ofp, char** tokens);

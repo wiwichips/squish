@@ -61,13 +61,14 @@ run(FILE *ofp, char ** const tokens, int nTokens, int verbosity)
 }
 
 int
-printCmd(char** tokens) {
+printCmd(FILE *ofp, char** tokens) {
 	char** globTokens = tokenGlob(tokens);
+	fprintf(ofp, ".");
 	for (int i = 0; globTokens[i] != NULL; i++) {
-		printf(" \"%s\"", globTokens[i]);
+		fprintf(ofp, " \"%s\"", globTokens[i]);
 		free(globTokens[i]);
 	}
 	free(globTokens);
-	puts("");
-	return 0;
+	fprintf(ofp, "\n");
+	return 0;/
 }
