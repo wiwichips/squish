@@ -1,6 +1,60 @@
 #include "w_redirection.h"
 #include "w_run.h"
 
+/**
+ * This code is very ugly. Please look at w_pipe.c or any other files
+ * instead of this one. Thank you.
+ */
+
+int
+simpleRedirect(FILE* ofp, char** tokens) {
+  char* cmd = tokens[0];
+  char* inputFN = NULL;
+  int inInd = 0;
+  char* outputFN = NULL;
+  int outInd = 0;
+  char* tmp = NULL;
+  pid_t cpid = 12345;
+  int Ntokens = 0;
+
+  // find the input and output files
+  for (int i = 0; tokens[i]; i++) {
+    if (!strcmp(tokens[i], ">")) {
+      outputFN = tokens[i+1];
+      outInd = i;
+    } else if (!strcmp(tokens[i], "<")) {
+      inputFN = tokens[i+1];
+      inInd = i;
+    }
+    Ntokens++;
+  }
+
+  // if there is no file after a ">" specify here
+  if (!inputFN && !outputFN) {
+    perror("Error with redirection files");
+    return -1;
+  }
+
+  if (inputFN && outputFN) {
+    // redirectTree only takes in multiple redirection in this order < >
+    // so I'm going to swap the input and output files if they're in > <
+
+    if (outputFN < inputFN) {
+      tokens[outInd+1] = inputFN;
+      tokens[inInd+1] = outputFN;
+      tokens[outInd][0] = '<';
+      tokens[inInd][0] = '>';
+    }
+
+    redirectTree(ofp, tokens);
+    
+  } else if (inputFN || outputFN) {
+    redirectTree(ofp, tokens);
+  }
+  
+  return 0;
+}
+
 // returns 0 if there are no redireciton characters
 int
 redirectTree(FILE* ofp, char** tokens)

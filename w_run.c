@@ -6,6 +6,7 @@ run(FILE *ofp, char ** const tokens, int nTokens, int verbosity)
   char*** listTokens = malloc(sizeof(char**));
 	listTokens[0] = tokens;
 	int numLists = 1;
+	int numRedir = 0;
 	int statLoc = 0;
   int ret;
 
@@ -23,14 +24,23 @@ run(FILE *ofp, char ** const tokens, int nTokens, int verbosity)
 	} else {
     // populate the array of strings seprated by "|" characters
 		for (int i = 1; i < nTokens; i++) {
-			if (!strcmp(tokens[i], "|")) {
+			if (tokens[i] && !strcmp(tokens[i], "|")) {
 				listTokens = realloc(listTokens, sizeof(char**) * ++numLists);
 				listTokens[numLists-1] = &tokens[i+1];
 				tokens[i] = NULL;
 			}
+
+			if (tokens[i] && (!strcmp(tokens[i], "<") || !strcmp(tokens[i], ">"))) {
+				numRedir++;
+			}
 		}
-		
-		if (numLists > 1) {
+
+		if (numRedir) {
+			free(listTokens);
+			listTokens = NULL;
+			ret = simpleRedirect(ofp, tokens);
+
+		} else if (numLists > 1) {
 			ret = ipc(ofp, listTokens, numLists);
 		} else {
 			ret = runCmd(ofp, tokens, &statLoc);
@@ -53,7 +63,9 @@ run(FILE *ofp, char ** const tokens, int nTokens, int verbosity)
 			}
 		}
 
-		free(listTokens);
+		if (listTokens) {
+			free(listTokens);
+		}		
 	}
 
 	return ret;
@@ -62,7 +74,7 @@ run(FILE *ofp, char ** const tokens, int nTokens, int verbosity)
 int
 printCmd(FILE *ofp, char** tokens) {
 	char** globTokens = tokenGlob(tokens);
-	fprintf(ofp, ".");
+	fprintf(ofp, "+");
 	for (int i = 0; globTokens[i] != NULL; i++) {
 		fprintf(ofp, " \"%s\"", globTokens[i]);
 		free(globTokens[i]);

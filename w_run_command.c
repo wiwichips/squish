@@ -40,7 +40,7 @@ runCmd(FILE* ofp, char** tokens, int* statLoc) {
     }
     free(globTokens);
 
-    // perror("exec 1");
+    //perror("exec 1");
     _exit(1);
   }
 
