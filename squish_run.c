@@ -22,6 +22,8 @@ prompt(FILE *pfp, FILE *ifp)
 	}
 }
 
+int DLOBALi = 0;
+
 /**
  * Actually do the work
  */
@@ -39,7 +41,23 @@ execFullCommandLine(
 	}
 
 	/** Now actually do something with this command, or command set */
-	return run(ofp, tokens, nTokens, verbosity);
+	run(ofp, tokens, nTokens, verbosity);
+
+	// puts("+--------------+");
+	// puts("|              |");
+	// puts("|              |");
+	// printf("|      %d       |\n", DLOBALi);
+	// puts("|              |");
+	// puts("|              |");
+	// puts("+--------------+");
+	// DLOBALi++;
+
+	// for (int i = 0; i < DLOBALi %50; i++) {
+	// 	printf("⬛");
+	// }
+
+
+	return 0;
 }
 
 /**

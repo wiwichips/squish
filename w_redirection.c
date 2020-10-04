@@ -50,7 +50,7 @@ redirectTree(FILE* ofp, char** tokens)
       close(fd[0]);
       dup2(fd[1], STDOUT_FILENO);
       redirectChilds(ofp, tokens, arrow, nullLoc);
-      exit(0);
+      _exit(0);
     }
 
     cpid = fork();
@@ -59,7 +59,7 @@ redirectTree(FILE* ofp, char** tokens)
       close(fd[1]);
       dup2(fd[0], STDIN_FILENO);
       redirection(ofp, tokens[nullLoc2+1], ">");
-      exit(0);
+      _exit(0);
     }
 
     close(fd[0]);
@@ -95,7 +95,7 @@ redirectChilds(FILE* ofp, char** tokens, char* arrow, int nullLoc) {
     else {
       exitStatus = redirection(ofp, tokens[nullLoc+1], "<");
     }
-    exit(exitStatus);
+    _exit(exitStatus);
   }
 
   cpid = fork();
@@ -110,7 +110,7 @@ redirectChilds(FILE* ofp, char** tokens, char* arrow, int nullLoc) {
       exitStatus = runCmd(ofp, &(tokens[0]), &statLoc);
     }
 
-    exit(exitStatus);
+    _exit(exitStatus);
   }
 
   // redirection(ofp, "zoey.txt", ">");

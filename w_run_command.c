@@ -19,14 +19,14 @@ runCmd(FILE* ofp, char** tokens, int* statLoc) {
   // create child process
   if ((pid = fork()) < 0) {
     perror("fork 1");
-    exit(1);
+    _exit(1);
   }
 
   // child process
   if (pid == 0) {
     // check if there are ">" or "<" characters, if so do redirection
     if (redirectTree(ofp, tokens)) {
-      exit(1);
+      _exit(1);
     }
 
     // glob
@@ -41,10 +41,10 @@ runCmd(FILE* ofp, char** tokens, int* statLoc) {
     free(globTokens);
 
     // perror("exec 1");
-    exit(1);
+    _exit(1);
   }
 
   exitingPID = wait(statLoc);
-    
+
   return exitingPID;
 }

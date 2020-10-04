@@ -6,6 +6,8 @@ squish
 *zoey
 *.txt
 typescript
+*.squish
+test*
 
 # Prerequisites
 *.d

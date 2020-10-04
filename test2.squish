@@ -5,4 +5,4 @@ echo have a nice day
 
 echo hello|sort|cat|pr -l1 -n
 
-echo hello|cat&
+echo hello|cat

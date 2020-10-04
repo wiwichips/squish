@@ -10,7 +10,7 @@ run(FILE *ofp, char ** const tokens, int nTokens, int verbosity)
   int ret;
 
 	// print the tokens
-	printCmd(tokens);
+	printCmd(ofp, tokens);
 
 	if (!strcmp(tokens[0], "cd")) {
 		free(listTokens);
@@ -32,9 +32,7 @@ run(FILE *ofp, char ** const tokens, int nTokens, int verbosity)
 		
 		if (numLists > 1) {
 			ret = ipc(ofp, listTokens, numLists);
-			free(listTokens);
 		} else {
-			free(listTokens);
 			ret = runCmd(ofp, tokens, &statLoc);
 
 			/**
@@ -53,8 +51,9 @@ run(FILE *ofp, char ** const tokens, int nTokens, int verbosity)
 			} else {
 				fprintf(ofp, "Child (%d) did not exit (crashed?)\n", ret);
 			}
-
 		}
+
+		free(listTokens);
 	}
 
 	return ret;
@@ -70,5 +69,5 @@ printCmd(FILE *ofp, char** tokens) {
 	}
 	free(globTokens);
 	fprintf(ofp, "\n");
-	return 0;/
+	return 0;
 }
