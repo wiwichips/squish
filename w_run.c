@@ -11,7 +11,7 @@ run(FILE *ofp, char ** const tokens, int nTokens, int verbosity)
   int ret;
 
 	// print the tokens
-	printCmd(ofp, tokens);
+	// printCmd(ofp, tokens);
 
 	if (!strcmp(tokens[0], "cd")) {
 		free(listTokens);
@@ -43,6 +43,7 @@ run(FILE *ofp, char ** const tokens, int nTokens, int verbosity)
 		} else if (numLists > 1) {
 			ret = ipc(ofp, listTokens, numLists);
 		} else {
+			statLoc = 1;
 			ret = runCmd(ofp, tokens, &statLoc);
 
 			/**

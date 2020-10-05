@@ -30,6 +30,7 @@ ipc(FILE* ofp, char*** listTokens, int nListTokens) {
 
   // if there is only one process, just run the command
   if (nListTokens == 1) {
+    statLoc = 1;
     return runCmd(ofp, listTokens[0], &statLoc);
   }
 

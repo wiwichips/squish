@@ -32,6 +32,12 @@ runCmd(FILE* ofp, char** tokens, int* statLoc) {
     // glob
     globTokens = tokenGlob(tokens);
 
+    // make output ofp if printing to the shell
+    if (*statLoc && fileno(ofp) != STDOUT_FILENO) {
+      close(STDOUT_FILENO);
+      dup(fileno(ofp));
+    }
+
     // replce the process image with the command specified
     execvp(tokens[0], globTokens);
 
