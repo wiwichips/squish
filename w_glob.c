@@ -44,23 +44,3 @@ tokenGlob(char** tokens) {
 
   return exTokens;
 }
-
-// int
-// main() {
-//   char* tokens[5];
-//   tokens[0] = "*.d";
-//   tokens[1] = "makefile";
-//   tokens[2] = "*.out";
-//   tokens[3] = "*.pdf";
-//   tokens[4] = NULL;
-//   char** exTok = tokenGlob(tokens);
-
-//   for (int i = 0; exTok[i] != NULL; i++) {
-//     printf("   ~\t%s\n", exTok[i]);
-//     free(exTok[i]);
-//   }
-//   free(exTok);
-
-//   return 0;
-// }
-

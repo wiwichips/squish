@@ -5,9 +5,7 @@ int
 runCmd(FILE* ofp, char** tokens, int* statLoc) {
   /**
    * FOLLOWING CODE SEGMENT WAS MODIFIED FROM THE ORIGINAL
-   * pipeToMore.c
-   * 
-   * TODO: cite this code properly
+   * pipeToMore.c FROM THE COURSE EXAMPLES.
    */
   int pipefds[2];
   int pid;

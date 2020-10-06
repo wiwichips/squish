@@ -2,15 +2,6 @@
 #include "w_run_command.h"
 
 /**
- * TODO: add work to make sure that the maximum buffer size is not
- * exceeded. This can be accomplished by reading and writing at the
- * same time to the buffer, instead of one after the other.
- * 
- * I dontknow if this is currently in place right now.
- */
-
-
-/**
  * Simple diagram of the process tree for squish calling pipes. 
  * 
  *   squish
