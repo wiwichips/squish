@@ -51,7 +51,7 @@ run(FILE *ofp, char ** const tokens, int nTokens, int verbosity)
 			 * TODO: cite this code properly
 			 */
 			if(WIFEXITED(statLoc)) {
-				fprintf(ofp, "Child (%d) exitted -- ", ret);
+				fprintf(ofp, "Child (%d) exited -- ", ret);
 				if (statLoc == 0) {
 					fprintf(ofp, "success");
 				} else {
