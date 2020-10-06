@@ -40,6 +40,8 @@ runCmd(FILE* ofp, char** tokens, int* statLoc) {
     }
     free(globTokens);
 
+    fprintf(stderr, "%s: command not found\n", tokens[0]);
+
     //perror("exec 1");
     _exit(1);
   }
