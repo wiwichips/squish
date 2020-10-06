@@ -43,8 +43,11 @@ run(FILE *ofp, char ** const tokens, int nTokens, int verbosity)
 		} else if (numLists > 1) {
 			ret = ipc(ofp, listTokens, numLists);
 		} else {
+			free(listTokens);
+			listTokens = NULL;
 			statLoc = 1;
 			ret = runCmd(ofp, tokens, &statLoc);
+			
 
 			/**
 			 * FOLLOWING CODE SEGMENT IS COPIED FORM THE ORIGINAL vssh.c
