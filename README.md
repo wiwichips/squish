@@ -43,5 +43,23 @@ ipc (tokens, nTokens)
   }
 }
 ```
+## File Structure
+### Tokenization Files by AHW
+squish_main.c
+squish_run.c
+squish_tokenize.c
+### "Built-in" CD and exit
+w_change_dir.c
+w_exit.c
+### Globbing
+w_glob.c
+### Piping and redirection
+w_pipe.c
+w_redirection.c
+### Input parser
+w_run.c
+### Exec wrapper
+w_run_command.c
+
 ## Works Cited
 Some of the code is copied from the cis-3050 c examples from the linux.socs server. Wherever that is the case, a comment block will be included above the code snippit.
